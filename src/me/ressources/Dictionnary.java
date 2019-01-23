@@ -98,12 +98,13 @@ public class Dictionnary {
 					String[] t = line.split(":");
 					word = new Word(t[0], t[1]);
 					this.words.add(word);
+					line = read.readLine();
 				}
 				read.close();
 			} catch (IOException e) {
 				System.err.println("Impossible d'ouvrir un Buffer de lecture !");
 				e.printStackTrace();
-			}
+			} catch (ArrayIndexOutOfBoundsException e) {}
 		} else {
 			System.err.println("Impossible de load le fichier !");
 		}

@@ -1,20 +1,19 @@
 package me.main;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 
 import me.ressources.Dictionnary;
-import me.ressources.graphics.Button;
-import me.ressources.graphics.Text;
-import me.ressources.graphics.Window;
+import me.ressources.graphics.WindowGestion;
 
 public class VoMain {
 	
+	public static Dictionnary dictionnary;
+	public static File file;
+	
 	public static void main(String[] args) {
-		Dictionnary dictionnary = new Dictionnary();
-		File file = new File("/home/miza/Bureau/dictionnaire.vo");
+		dictionnary = new Dictionnary();
+		file = new File("dictionnaire.vo");
 		if(!file.exists()) {
 			try {
 				file.createNewFile();
@@ -22,30 +21,30 @@ public class VoMain {
 				e.printStackTrace();
 			}
 		}
+		else {
+			dictionnary.load(file);
+		}
 		
-		createWelcomeMenu();
+		WindowGestion.openIndexWindow();
 	}
-	
-	public static void createWelcomeMenu() {
-		Window window = new Window("VoJap (Beta)", 1000, 600);
-		
-		Text name = new Text("VoJap", (int) (window.getX() / 1.5), (window.getY() / 10),(int) ((window.getX() / 2) - ((window.getX() / 1.5) / 2)), (window.getY() / 10));
-		Button button = new Button("test", 50, 50, window.getX() / 2, window.getY(), new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent arg0) {}
-			@Override
-			public void mousePressed(MouseEvent key) {
-				System.out.println("ZBEUB");
-			}
-			@Override
-			public void mouseExited(MouseEvent arg0) {}
-			@Override
-			public void mouseEntered(MouseEvent arg0) {}
-			@Override
-			public void mouseClicked(MouseEvent arg0) {}
-		});
-		window.addButton(button);
-		window.addText(name);
+
+	public static Dictionnary getDictionnary()
+	{
+		return dictionnary;
+	}
+
+	public static void setDictionnary(Dictionnary dictionnary)
+	{
+		VoMain.dictionnary = dictionnary;
+	}
+
+	public static File getFile()
+	{
+		return file;
+	}
+
+	public static void setFile(File file)
+	{
+		VoMain.file = file;
 	}
 }

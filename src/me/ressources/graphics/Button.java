@@ -13,6 +13,23 @@ public class Button extends JButton{
 	private int x, y, locX, locY;
 	private MouseListener listener;
 	
+	public Button(String text) {
+		this.text = text;
+		this.listener = null;
+		
+		this.setText(text);
+		this.setBackground(Color.WHITE);
+	}
+	
+	public Button(String text, MouseListener listener) {
+		this.text = text;
+		this.listener = listener;
+		
+		this.setText(text);
+		this.setBackground(Color.WHITE);
+		this.addMouseListener(listener);
+	}
+	
 	public Button(String text, int x, int y, int locX, int locY) {
 		this.text = text;
 		this.x = x;

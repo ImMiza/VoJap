@@ -8,9 +8,13 @@ public class Text extends JLabel{
 
 	private static final long serialVersionUID = 1L;
 	
+	public Text(String text) {
+		this.setText(text);
+	}
+	
 	public Text(String text, int x, int y, int locX, int locY) {
 		this.setText(text);
-		this.setSize(50, 50);
+		this.setSize(x, y);
 		this.setLocation(locX, locY);
 	}
 	
