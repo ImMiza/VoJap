@@ -20,6 +20,14 @@ public class Word {
 	public String getJapaneseWord() {
 		return japaneseWord;
 	}
+	
+	public String getRandomWord() {
+		double r = Math.random();
+		if(r < 0.5)
+			return this.frenchWord;
+		else
+			return this.japaneseWord;
+	}
 
 	public void setJapaneseWord(String japaneseWord) {
 		this.japaneseWord = japaneseWord;
