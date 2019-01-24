@@ -33,6 +33,7 @@ public abstract class WindowGestion {
 	private static ArrayList<Word> words;
 	private static int scorePlus;
 	private static int scoreMoins;
+	private static Text trainingIndicator;
 	
 	static {
 		title = "VoJap (Beta)";
@@ -47,8 +48,8 @@ public abstract class WindowGestion {
 		Text text = new Text("VoJap !");
 		Text text2 = new Text("Apprend ton Japonais !");
 
-		text.setFont(new Font(Font.SERIF, Font.BOLD, 30));
-		text2.setFont(new Font(Font.SERIF, Font.ITALIC, 15));
+		text.setFont(new Font(Font.DIALOG, Font.BOLD, 35));
+		text2.setFont(new Font(Font.DIALOG, Font.ITALIC, 15));
 		text.setAlignmentX(Component.CENTER_ALIGNMENT);
 		text2.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -77,6 +78,31 @@ public abstract class WindowGestion {
 		});
 		addWord.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+		Button removeWord = new Button("supprimer du vocabulaire", new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				removeWord();
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		removeWord.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 		Button list = new Button("Liste du Vocabulaire", new MouseListener() {
 
 			@Override
@@ -156,6 +182,7 @@ public abstract class WindowGestion {
 		panel.add(text);
 		panel.add(text2);
 		panel.add(addWord);
+		panel.add(removeWord);
 		panel.add(list);
 		panel.add(clearList);
 		panel.add(training);
@@ -163,7 +190,7 @@ public abstract class WindowGestion {
 		window.setContentPane(panel);
 	}
 
-	private static void addWord() {
+	public static void addWord() {
 		Window win = new Window("Vocabulaire", (int) (width / 1.2), (int) (height / 1.2));
 		win.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		Panel pan = new Panel();
@@ -230,7 +257,7 @@ public abstract class WindowGestion {
 		win.setContentPane(pan);
 	}
 
-	private static void list() {
+	public static void list() {
 		Window win = new Window("Liste de vocabulaire", (int) (width / 2), (int) (height / 1.2));
 		win.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -268,7 +295,7 @@ public abstract class WindowGestion {
 		win.setContentPane(pan);
 	}
 
-	private static void clearlist() {
+	public static void clearlist() {
 		Window win = new Window("Liste de vocabulaire", (int) (width / 3), (int) (height / 3));
 		win.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		Panel pan = new Panel();
@@ -338,13 +365,14 @@ public abstract class WindowGestion {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static void training() {
+	public static void training() {
 		Window win = new Window("Entrainement", width, height);
 		win.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		trainingField = new TextField();
 		words = (ArrayList<Word>) VoMain.getDictionnary().getWords().clone();
 		scorePlus = 0;
 		scoreMoins = 0;
+		trainingIndicator = new Text("");
 		
 		Collections.shuffle(words);
 		Word w = words.get(0);
@@ -373,15 +401,18 @@ public abstract class WindowGestion {
 			@Override
 			public void keyPressed(KeyEvent key) {
 				if(key.getKeyCode() == KeyEvent.VK_ENTER) {
-					System.out.println(words.size());
 					if(words.size() > 1) {
 						if(trainingField.getText().equals(trainingAnswer)) {
 							words.remove(0);
 							scorePlus += 1;
+							trainingIndicator.setText("Correct !");
+							trainingIndicator.setForeground(Color.GREEN);
 						}
 						else
 						{
 							scoreMoins += 1;
+							trainingIndicator.setText("Faux ! Réponse: " + trainingAnswer);
+							trainingIndicator.setForeground(Color.RED);
 						}
 						
 						Collections.shuffle(words);
@@ -431,15 +462,20 @@ public abstract class WindowGestion {
 		
 		trainingText.setFont(new Font(Font.DIALOG, Font.BOLD, 40));
 		trainingText.setAlignmentX(Component.CENTER_ALIGNMENT);
+		trainingIndicator.setAlignmentX(Component.CENTER_ALIGNMENT);
+		trainingIndicator.setFont(new Font(Font.DIALOG, Font.BOLD, 25));
+		
 		trainingPanel.add(trainingText);
 		trainingPanel.add(Box.createVerticalStrut(60));
 		trainingPanel.add(trainingField);
+		trainingPanel.add(trainingIndicator);
 		win.setContentPane(trainingPanel);
 
 	}
 	
 	private static void result() {
 		Window win = new Window("resultat", width / 2, height / 2);
+		win.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		Panel pan = new Panel();
 		Text result = new Text("Resultat");
 		Text tsPlus = new Text("Reussi: " + scorePlus);
@@ -459,6 +495,51 @@ public abstract class WindowGestion {
 		pan.add(tsMoins);
 		
 		win.setContentPane(pan);
+		
+	}
+	
+	public static void removeWord() {
+		Window win = new Window("resultat", width / 3, height / 3);
+		win.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		Panel pan = new Panel();
+		pan.setLayout(new BoxLayout(pan, BoxLayout.PAGE_AXIS));
+		Text text = new Text("Entrez le mot francais ou japonais:");
+		text.setAlignmentX(Component.CENTER_ALIGNMENT);
+		Text unfound = new Text("");
+		unfound.setAlignmentX(Component.CENTER_ALIGNMENT);
+		TextField field = new TextField();
+		field.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e)
+			{}
+			
+			@Override
+			public void keyReleased(KeyEvent e)
+			{}
+			
+			@Override
+			public void keyPressed(KeyEvent e)
+			{
+				if(e.getKeyChar() == KeyEvent.VK_ENTER) {
+					if(VoMain.getDictionnary().containsWord(field.getText())) {
+						VoMain.getDictionnary().removeWord(field.getText());
+						win.dispose();
+					}
+					else {
+						unfound.setText("Mot introuvable");
+						unfound.setForeground(Color.RED);
+						win.repaint();
+					}
+				}
+			}
+		});
+		
+		pan.add(text);
+		pan.add(field);
+		pan.add(unfound);
+		win.setContentPane(pan);
+		
 		
 	}
 	

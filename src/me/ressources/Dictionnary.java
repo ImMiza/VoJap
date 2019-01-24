@@ -3,10 +3,14 @@ package me.ressources;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
+
 
 public class Dictionnary {
 
@@ -73,12 +77,11 @@ public class Dictionnary {
 		file.setWritable(true);
 
 		try {
-			BufferedWriter write = new BufferedWriter(new FileWriter(file));
+			Writer write = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
 			for (Word word : this.words) {
 				write.write(word.getFrenchWord() + ":" + word.getJapaneseWord() + "\n");
 				write.flush();
 			}
-			write.newLine();
 			write.close();
 		} catch (IOException e) {
 			System.err.println("Impossible d'ouvrir un Buffer d'ecriture !");
@@ -91,7 +94,7 @@ public class Dictionnary {
 	public void load(File file) {
 		if (file.exists()) {
 			try {
-				BufferedReader read = new BufferedReader(new FileReader(file));
+				BufferedReader read = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
 				String line = read.readLine();
 				Word word = null;
 				while (line != null) {
