@@ -1,4 +1,4 @@
-package me.ressources.mode.wordGestion;
+package me.ressources.mode.wordgestion;
 
 import java.awt.Color;
 import java.awt.Component;

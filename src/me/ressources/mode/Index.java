@@ -15,11 +15,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import me.main.VoMain;
-import me.ressources.mode.wordGestion.AddWord;
-import me.ressources.mode.wordGestion.ClearList;
-import me.ressources.mode.wordGestion.Entrainement;
-import me.ressources.mode.wordGestion.List;
-import me.ressources.mode.wordGestion.RemoveWord;
+import me.ressources.mode.wordgestion.AddWord;
+import me.ressources.mode.wordgestion.ClearList;
+import me.ressources.mode.wordgestion.List;
+import me.ressources.mode.wordgestion.RemoveWord;
+import me.ressources.mode.wordgestion.TrainingIndex;
 
 public class Index {
 
@@ -185,7 +185,7 @@ public class Index {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				if(!VoMain.getDictionnary().getWords().isEmpty())
-					new Entrainement("Entrainement", defaultWidth, defaultHeight / 2);
+					new TrainingIndex("Entrainement", defaultWidth, defaultHeight / 2);
 				else
 					System.err.println("Liste vide !");
 			}

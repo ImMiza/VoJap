@@ -1,4 +1,4 @@
-package me.ressources.mode.wordGestion;
+package me.ressources.mode.wordgestion;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -16,8 +16,12 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import me.main.VoMain;
+import me.ressources.mode.wordgestion.gamemode.Normal;
+import me.ressources.mode.wordgestion.gamemode.WordsBox;
 
-public class ClearList {
+
+public class TrainingIndex
+{
 
 	private JFrame window;
 	private JPanel panel;
@@ -25,56 +29,55 @@ public class ClearList {
 	private int defaultWidth;
 	private int defaultHeight;
 	
-	public ClearList(String title, int width, int height) {
+	public TrainingIndex(String title, int width, int height)
+	{
 		this.title = title;
 		this.defaultWidth = width;
 		this.defaultHeight = height;
 		
 		this.window = new JFrame(this.title);
 		this.window.setSize(this.defaultWidth, this.defaultHeight);
-		this.window.setAlwaysOnTop(true);
 		this.window.setLocationRelativeTo(null);
+		this.window.setAlwaysOnTop(true);
 		this.window.setVisible(true);
 		this.window.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		
 		this.panel = new JPanel();
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.PAGE_AXIS));
-
-		JLabel text = new JLabel("Vous êtes sur ?");
+		
+		JLabel text = new JLabel("Mode d'entrainement");
+		text.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
 		text.setAlignmentX(Component.CENTER_ALIGNMENT);
-		text.setFont(new Font(Font.DIALOG_INPUT, Font.CENTER_BASELINE, 15));
 		
-		JButton yes = initializeYes();
-		yes.setAlignmentX(Component.CENTER_ALIGNMENT);
-		yes.setMaximumSize(new Dimension(width / 2, height / 5));
-		yes.setBackground(Color.DARK_GRAY);
-		yes.setForeground(Color.WHITE);
+		JButton NormalMode = initializeNormalMode();
+		NormalMode.setAlignmentX(Component.CENTER_ALIGNMENT);
+		NormalMode.setBackground(Color.DARK_GRAY);
+		NormalMode.setForeground(Color.WHITE);
+		NormalMode.setMaximumSize(new Dimension(width / 2, height / 5));
 		
-		JButton no = initializeNo();
-		no.setAlignmentX(Component.CENTER_ALIGNMENT);
-		no.setMaximumSize(new Dimension(width / 2, height / 5));
-		no.setBackground(Color.DARK_GRAY);
-		no.setForeground(Color.WHITE);
+		JButton wordsBoxMode = initializeWordsBoxMode();
+		wordsBoxMode.setAlignmentX(Component.CENTER_ALIGNMENT);
+		wordsBoxMode.setBackground(Color.DARK_GRAY);
+		wordsBoxMode.setForeground(Color.WHITE);
+		wordsBoxMode.setMaximumSize(new Dimension(width / 2, height / 5));
 		
 		this.panel.add(text);
 		this.panel.add(Box.createVerticalStrut(10));
-		this.panel.add(yes);
-		this.panel.add(Box.createVerticalStrut(5));
-		this.panel.add(no);
-
+		this.panel.add(NormalMode);
+		this.panel.add(Box.createVerticalStrut(10));
+		this.panel.add(wordsBoxMode);
+		
 		this.window.setContentPane(this.panel);
 	}
 	
-	private JButton initializeYes() {
-		JButton yes = new JButton("oui");
-		yes.addMouseListener(new MouseListener() {
+	private JButton initializeNormalMode() {
+		JButton NormalMode = new JButton("Mode normal");
+		NormalMode.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent e) {}
 			@Override
 			public void mousePressed(MouseEvent e) {
-				VoMain.getDictionnary().getWords().clear();
-				if (VoMain.getFile().exists())
-					VoMain.getFile().delete();
+				new Normal("Entrainement", VoMain.getDefaultWidth(), (int) (VoMain.getDefaultHeight() / 1.5));
 				window.dispose();
 			}
 			@Override
@@ -85,16 +88,17 @@ public class ClearList {
 			public void mouseClicked(MouseEvent e) {}
 		});
 		
-		return yes;
+		return NormalMode;
 	}
 	
-	private JButton initializeNo() {
-		JButton no = new JButton("non");
-		no.addMouseListener(new MouseListener() {
+	private JButton initializeWordsBoxMode() {
+		JButton wordBox = new JButton("Pyramide de mot");
+		wordBox.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent e) {}
 			@Override
 			public void mousePressed(MouseEvent e) {
+				new WordsBox("Entrainement", VoMain.getDefaultWidth(), (int) (VoMain.getDefaultHeight() / 1.5));
 				window.dispose();
 			}
 			@Override
@@ -105,6 +109,6 @@ public class ClearList {
 			public void mouseClicked(MouseEvent e) {}
 		});
 		
-		return no;
+		return wordBox;
 	}
 }

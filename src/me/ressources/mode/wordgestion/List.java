@@ -1,5 +1,6 @@
-package me.ressources.mode.wordGestion;
+package me.ressources.mode.wordgestion;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -36,7 +37,7 @@ public class List {
 		this.window.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		
 		this.panel = new JPanel();
-		this.panel.setLayout(new GridLayout(VoMain.getDictionnary().getWords().size() + 1, 2));
+		this.panel.setLayout(new GridLayout(VoMain.getDictionnary().getWords().size() + 2, 2));
 		
 		ScrollPane scroll = new ScrollPane();
 		scroll.getVAdjustable().setUnitIncrement(20);
@@ -51,8 +52,22 @@ public class List {
 		title2.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		title2.setHorizontalAlignment(SwingConstants.CENTER);
 		
+		JLabel word = new JLabel("Nombre de mot");
+		word.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
+		word.setAlignmentX(Component.LEFT_ALIGNMENT);
+		word.setHorizontalAlignment(SwingConstants.CENTER);
+		word.setForeground(Color.BLUE);
+		
+		JLabel sizeWord = new JLabel("" + VoMain.getDictionnary().getWords().size());
+		sizeWord.setFont(new Font(Font.DIALOG, Font.BOLD, 15));
+		sizeWord.setAlignmentX(Component.LEFT_ALIGNMENT);
+		sizeWord.setHorizontalAlignment(SwingConstants.CENTER);
+		sizeWord.setForeground(Color.BLUE);
+		
 		this.panel.add(title1);
 		this.panel.add(title2);
+		this.panel.add(word);
+		this.panel.add(sizeWord);
 
 		for (Word w : VoMain.getDictionnary().getWords()) {
 			
