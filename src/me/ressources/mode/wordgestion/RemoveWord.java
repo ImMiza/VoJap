@@ -40,7 +40,7 @@ public class RemoveWord {
 		this.panel = new JPanel();
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.PAGE_AXIS));
 		
-		JLabel text = new JLabel("Entrez le mot francais ou japonais:");
+		JLabel text = new JLabel("Entrez le mot francais, japonais ou kanji:");
 		text.setAlignmentX(Component.CENTER_ALIGNMENT);
 		text.setMaximumSize(new Dimension(width, height / 8));
 		text.setFont(new Font(Font.DIALOG, Font.CENTER_BASELINE, 15));
@@ -72,6 +72,10 @@ public class RemoveWord {
 				if(e.getKeyChar() == KeyEvent.VK_ENTER) {
 					if(VoMain.getDictionnary().containsWord(field.getText())) {
 						VoMain.getDictionnary().removeWord(field.getText());
+						window.dispose();
+					}
+					else if(VoMain.getDictionnary().containsKanji(field.getText())) {
+						VoMain.getDictionnary().removeKanji(field.getText());
 						window.dispose();
 					}
 					else {

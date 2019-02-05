@@ -19,9 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import me.main.VoMain;
-import me.ressources.Word;
 
-public class WordsBox {
+public class Kanji {
 
 	private JFrame window;
 	private JPanel panel;
@@ -32,11 +31,13 @@ public class WordsBox {
 	private int erreur;
 	private JLabel word;
 	private JLabel sizeWord;
+	private JLabel languageAnswer;
 	private String answer;
 	
 	private ArrayList<Error> errors;
 	
-	public WordsBox(String title, int width, int height) {
+	public Kanji(String title, int width, int height)
+	{
 		this.title = title;
 		this.defaultWidth = width;
 		this.defaultHeight = height;
@@ -47,7 +48,7 @@ public class WordsBox {
 		this.window.setAlwaysOnTop(true);
 		this.window.setVisible(true);
 		this.window.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-	
+		
 		this.panel = new JPanel();
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.PAGE_AXIS));
 		
@@ -57,10 +58,8 @@ public class WordsBox {
 		
 		this.errors = new ArrayList<Error>();
 		
-		this.answer = "";
-		
 		@SuppressWarnings("unchecked")
-		final ArrayList<Word> words = (ArrayList<Word>) VoMain.getDictionnary().getWords().clone();
+		final ArrayList<me.ressources.Kanji> words = (ArrayList<me.ressources.Kanji>) VoMain.getDictionnary().getKanjis().clone();
 		Collections.shuffle(words);
 		
 		this.sizeWord = new JLabel("mot(s) restant(s): " + words.size());
@@ -69,12 +68,18 @@ public class WordsBox {
 		
 		this.erreur = 0;
 		
+		this.answer = "";
+		
+		this.languageAnswer = new JLabel("");
+		this.languageAnswer.setAlignmentX(Component.CENTER_ALIGNMENT);
+		this.languageAnswer.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
+		
 		final JLabel indicator = new JLabel("");
 		indicator.setAlignmentX(Component.CENTER_ALIGNMENT);
 		indicator.setFont(new Font(Font.DIALOG, Font.BOLD, 25));
 		
-		Word w = words.get(0);
-		random(w);
+		me.ressources.Kanji k = words.get(0);
+		random(k);
 		
 		final TextField field = new TextField();
 		field.setMaximumSize(new Dimension(width, height / 4));
@@ -92,8 +97,8 @@ public class WordsBox {
 			@Override
 			public void keyPressed(KeyEvent key) {
 				if(key.getKeyCode() == KeyEvent.VK_ENTER) {
+					words.remove(0);
 					if(field.getText().equals(answer)) {
-						words.remove(0);
 						indicator.setText("Correct !");
 						indicator.setForeground(Color.GREEN);
 					}
@@ -108,12 +113,12 @@ public class WordsBox {
 					
 					if(words.size() == 0) {
 						window.dispose();
-						result("Résultat", height / 2, height / 2);
+						result("Résultat", height, height);
 					}
 					else {
 						Collections.shuffle(words);
-						Word w = words.get(0);
-						random(w);
+						me.ressources.Kanji k = words.get(0);
+						random(k);
 						field.setText("");
 						sizeWord.setText("mot(s) restant(s): " + words.size());
 						panel.repaint();
@@ -126,51 +131,29 @@ public class WordsBox {
 		this.panel.add(this.word);
 		this.panel.add(Box.createVerticalStrut(10));
 		this.panel.add(this.sizeWord);
-		this.panel.add(Box.createVerticalStrut(40));
+		this.panel.add(Box.createVerticalStrut(10));
+		this.panel.add(languageAnswer);
+		this.panel.add(Box.createVerticalStrut(30));
 		this.panel.add(field);
 		this.panel.add(indicator);
+		this.window.setContentPane(this.panel);
 		
-		for(Error error : this.errors) {
-			JLabel question = new JLabel("Le mot: " + error.getQuestion());
-			question.setAlignmentX(Component.CENTER_ALIGNMENT);
-			question.setFont(new Font(Font.DIALOG, Font.CENTER_BASELINE, 20));
-			question.setForeground(Color.ORANGE);
-			
-			JLabel answerUser = new JLabel("Votre réponse: " + error.getAnswerOnUser());
-			answerUser.setAlignmentX(Component.CENTER_ALIGNMENT);
-			answerUser.setFont(new Font(Font.DIALOG, Font.CENTER_BASELINE, 20));
-			answerUser.setForeground(Color.RED);
-			
-			JLabel trueAnswer = new JLabel("La réponse: " + error.getTrueAnswer());
-			trueAnswer.setAlignmentX(Component.CENTER_ALIGNMENT);
-			trueAnswer.setFont(new Font(Font.DIALOG, Font.CENTER_BASELINE, 20));
-			trueAnswer.setForeground(Color.GREEN);
-			
-			this.panel.add(question);
-			this.panel.add(answerUser);
-			this.panel.add(trueAnswer);
-			this.panel.add(Box.createVerticalStrut(20));
-		}
-		
-		ScrollPane scroll = new ScrollPane();
-		scroll.getVAdjustable().setUnitIncrement(20);
-		scroll.add(this.panel);
-		
-		this.window.setContentPane(scroll);
 	}
 	
-	
-	private void random(Word w) {
+	private void random(me.ressources.Kanji k) {
+		this.word.setText(k.getKanjiWord());
 		if(Math.random() < 0.5) {
-			this.word.setText(w.getFrenchWord());
-			this.answer = w.getJapaneseWord();
+			this.languageAnswer.setText("En francais");
+			this.languageAnswer.setForeground(Color.ORANGE);
+			this.answer = k.getFrenchWord();
 		}
 		else {
-			this.word.setText(w.getJapaneseWord());
-			this.answer = w.getFrenchWord();
+			this.languageAnswer.setText("En hiragana");
+			this.languageAnswer.setForeground(Color.CYAN);
+			this.answer = k.getHiraganaWord();
 		}
 	}
-
+	
 	private void result(String title, int width, int height) {
 		JFrame windowResult = new JFrame(title);
 		windowResult.setSize(this.defaultWidth, this.defaultHeight);
@@ -197,6 +180,7 @@ public class WordsBox {
 		pan.add(tsPlus);
 		pan.add(Box.createVerticalStrut(20));
 		pan.add(tsMoins);
+		pan.add(Box.createVerticalStrut(20));
 		
 		for(Error error : this.errors) {
 			JLabel question = new JLabel("Le mot: " + error.getQuestion());

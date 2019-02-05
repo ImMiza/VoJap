@@ -15,9 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import me.main.VoMain;
-import me.ressources.mode.wordgestion.AddWord;
+import me.ressources.mode.wordgestion.AddWordIndex;
 import me.ressources.mode.wordgestion.ClearList;
-import me.ressources.mode.wordgestion.List;
+import me.ressources.mode.wordgestion.ListIndex;
 import me.ressources.mode.wordgestion.RemoveWord;
 import me.ressources.mode.wordgestion.TrainingIndex;
 
@@ -108,7 +108,7 @@ public class Index {
 			public void mouseReleased(MouseEvent e) {}
 			@Override
 			public void mousePressed(MouseEvent e) {
-				new AddWord(title, (defaultWidth / 2), (defaultHeight / 2));
+				new AddWordIndex(title, (defaultWidth / 2), (defaultHeight / 2));
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {}
@@ -146,7 +146,7 @@ public class Index {
 			public void mouseReleased(MouseEvent e) {}
 			@Override
 			public void mousePressed(MouseEvent e) {
-				new List("List", (defaultWidth / 2), defaultHeight);
+				new ListIndex("List", (defaultWidth / 2), defaultHeight / 2);
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {}

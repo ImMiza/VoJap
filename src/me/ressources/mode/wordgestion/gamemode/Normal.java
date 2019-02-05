@@ -104,13 +104,13 @@ public class Normal
 						erreur += 1;
 						Error e = new Error(word.getText(), field.getText(), answer);
 						errors.add(e);
-						indicator.setText("Faux ! Réponse: " + answer);
+						indicator.setText("Faux ! RÃ©ponse: " + answer);
 						indicator.setForeground(Color.RED);
 					}
 					
 					if(words.size() == 0) {
 						window.dispose();
-						result("Résultat", height, height);
+						result("RÃ©sultat", height, height);
 					}
 					else {
 						Collections.shuffle(words);
@@ -179,12 +179,12 @@ public class Normal
 			question.setFont(new Font(Font.DIALOG, Font.CENTER_BASELINE, 20));
 			question.setForeground(Color.ORANGE);
 			
-			JLabel answerUser = new JLabel("Votre réponse: " + error.getAnswerOnUser());
+			JLabel answerUser = new JLabel("Votre rÃ©ponse: " + error.getAnswerOnUser());
 			answerUser.setAlignmentX(Component.CENTER_ALIGNMENT);
 			answerUser.setFont(new Font(Font.DIALOG, Font.CENTER_BASELINE, 20));
 			answerUser.setForeground(Color.RED);
 			
-			JLabel trueAnswer = new JLabel("La réponse: " + error.getTrueAnswer());
+			JLabel trueAnswer = new JLabel("La rÃ©ponse: " + error.getTrueAnswer());
 			trueAnswer.setAlignmentX(Component.CENTER_ALIGNMENT);
 			trueAnswer.setFont(new Font(Font.DIALOG, Font.CENTER_BASELINE, 20));
 			trueAnswer.setForeground(Color.GREEN);

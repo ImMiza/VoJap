@@ -17,7 +17,9 @@ import javax.swing.WindowConstants;
 
 import me.main.VoMain;
 
-public class ClearList {
+
+public class AddWordIndex
+{
 
 	private JFrame window;
 	private JPanel panel;
@@ -25,56 +27,55 @@ public class ClearList {
 	private int defaultWidth;
 	private int defaultHeight;
 	
-	public ClearList(String title, int width, int height) {
+	public AddWordIndex(String title, int width, int height)
+	{
 		this.title = title;
 		this.defaultWidth = width;
 		this.defaultHeight = height;
 		
 		this.window = new JFrame(this.title);
 		this.window.setSize(this.defaultWidth, this.defaultHeight);
-		this.window.setAlwaysOnTop(true);
 		this.window.setLocationRelativeTo(null);
+		this.window.setAlwaysOnTop(true);
 		this.window.setVisible(true);
 		this.window.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		
 		this.panel = new JPanel();
 		this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.PAGE_AXIS));
-
-		JLabel text = new JLabel("Vous êtes sur ?");
+		
+		JLabel text = new JLabel("Ajout de vocabulaire");
+		text.setFont(new Font(Font.DIALOG, Font.BOLD, 20));
 		text.setAlignmentX(Component.CENTER_ALIGNMENT);
-		text.setFont(new Font(Font.DIALOG_INPUT, Font.CENTER_BASELINE, 15));
 		
-		JButton yes = initializeYes();
-		yes.setAlignmentX(Component.CENTER_ALIGNMENT);
-		yes.setMaximumSize(new Dimension(width / 2, height / 5));
-		yes.setBackground(Color.DARK_GRAY);
-		yes.setForeground(Color.WHITE);
+		JButton addWord = initializeWord();
+		addWord.setAlignmentX(Component.CENTER_ALIGNMENT);
+		addWord.setBackground(Color.DARK_GRAY);
+		addWord.setForeground(Color.WHITE);
+		addWord.setMaximumSize(new Dimension((int) (width / 1.5), height / 5));
 		
-		JButton no = initializeNo();
-		no.setAlignmentX(Component.CENTER_ALIGNMENT);
-		no.setMaximumSize(new Dimension(width / 2, height / 5));
-		no.setBackground(Color.DARK_GRAY);
-		no.setForeground(Color.WHITE);
+		JButton addKanjiWord = initializeKanjiWord();
+		addKanjiWord.setAlignmentX(Component.CENTER_ALIGNMENT);
+		addKanjiWord.setBackground(Color.DARK_GRAY);
+		addKanjiWord.setForeground(Color.WHITE);
+		addKanjiWord.setMaximumSize(new Dimension((int) (width / 1.5), height / 5));
 		
 		this.panel.add(text);
 		this.panel.add(Box.createVerticalStrut(10));
-		this.panel.add(yes);
-		this.panel.add(Box.createVerticalStrut(5));
-		this.panel.add(no);
-
+		this.panel.add(addWord);
+		this.panel.add(Box.createVerticalStrut(10));
+		this.panel.add(addKanjiWord);
+		
 		this.window.setContentPane(this.panel);
 	}
 	
-	private JButton initializeYes() {
-		JButton yes = new JButton("oui");
-		yes.addMouseListener(new MouseListener() {
+	private JButton initializeWord() {
+		JButton NormalMode = new JButton("Ajouter mot de vocabulaire");
+		NormalMode.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent e) {}
 			@Override
 			public void mousePressed(MouseEvent e) {
-				VoMain.getDictionnary().getWords().clear();
-				if (VoMain.getFile().exists())
-					VoMain.getFile().delete();
+				new AddWord(title, (VoMain.defaultWidth / 2), (VoMain.defaultHeight / 2));
 				window.dispose();
 			}
 			@Override
@@ -85,16 +86,17 @@ public class ClearList {
 			public void mouseClicked(MouseEvent e) {}
 		});
 		
-		return yes;
+		return NormalMode;
 	}
 	
-	private JButton initializeNo() {
-		JButton no = new JButton("non");
-		no.addMouseListener(new MouseListener() {
+	private JButton initializeKanjiWord() {
+		JButton wordBox = new JButton("Ajouter Kanji");
+		wordBox.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent e) {}
 			@Override
 			public void mousePressed(MouseEvent e) {
+				new AddKanjiWord(title, (VoMain.defaultWidth / 2), (VoMain.defaultHeight / 2));
 				window.dispose();
 			}
 			@Override
@@ -105,6 +107,6 @@ public class ClearList {
 			public void mouseClicked(MouseEvent e) {}
 		});
 		
-		return no;
+		return wordBox;
 	}
 }

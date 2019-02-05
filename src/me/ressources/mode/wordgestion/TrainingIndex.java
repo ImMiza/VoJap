@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import me.main.VoMain;
+import me.ressources.mode.wordgestion.gamemode.Kanji;
 import me.ressources.mode.wordgestion.gamemode.Normal;
 import me.ressources.mode.wordgestion.gamemode.WordsBox;
 
@@ -61,11 +62,19 @@ public class TrainingIndex
 		wordsBoxMode.setForeground(Color.WHITE);
 		wordsBoxMode.setMaximumSize(new Dimension(width / 2, height / 5));
 		
+		JButton NormalModeKanji = initializeNormalModeKanji();
+		NormalModeKanji.setAlignmentX(Component.CENTER_ALIGNMENT);
+		NormalModeKanji.setBackground(Color.DARK_GRAY);
+		NormalModeKanji.setForeground(Color.WHITE);
+		NormalModeKanji.setMaximumSize(new Dimension(width / 2, height / 5));
+		
 		this.panel.add(text);
 		this.panel.add(Box.createVerticalStrut(10));
 		this.panel.add(NormalMode);
 		this.panel.add(Box.createVerticalStrut(10));
 		this.panel.add(wordsBoxMode);
+		this.panel.add(Box.createVerticalStrut(10));
+		this.panel.add(NormalModeKanji);
 		
 		this.window.setContentPane(this.panel);
 	}
@@ -110,5 +119,26 @@ public class TrainingIndex
 		});
 		
 		return wordBox;
+	}
+	
+	private JButton initializeNormalModeKanji() {
+		JButton NormalMode = new JButton("Mode normal (Kanji)");
+		NormalMode.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				new Kanji("Entrainement (Kanji)", VoMain.getDefaultWidth(), (int) (VoMain.getDefaultHeight() / 1.5));
+				window.dispose();
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {}
+			@Override
+			public void mouseEntered(MouseEvent e) {}
+			@Override
+			public void mouseClicked(MouseEvent e) {}
+		});
+		
+		return NormalMode;
 	}
 }
